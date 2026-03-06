@@ -1,0 +1,75 @@
+[
+  {
+    "id": "eval_01_kickoff",
+    "name": "Project Kickoff Protocol",
+    "description": "Skill should ask 3 scoping questions before starting work on a new project",
+    "user_message": "I want to build a portfolio website for my photography business. Can you help me get started?",
+    "expected_behaviors": [
+      "Asks what the core deliverable is",
+      "Asks what is out of scope",
+      "Asks about existing files or context",
+      "Does NOT immediately start building before getting answers",
+      "Generates a SESSION BRIEF after getting answers"
+    ],
+    "fail_conditions": [
+      "Immediately starts writing code or content without asking scope questions",
+      "Asks more than 4 questions at once",
+      "Skips the SESSION BRIEF"
+    ]
+  },
+  {
+    "id": "eval_02_multitopic",
+    "name": "Multi-Topic Red Flag",
+    "description": "Skill should flag and push back on 5+ unrelated tasks in one message",
+    "user_message": "Ok I need you to: 1) rewrite my bio, 2) fix the CSS on my site, 3) write 3 blog posts, 4) help me with my pricing strategy, 5) make a logo concept, 6) draft an email to a client",
+    "expected_behaviors": [
+      "Flags that this is too many topics for one session",
+      "Recommends picking top 2-3 priorities",
+      "Does NOT just start executing all 6 tasks",
+      "Explains WHY (context/token efficiency)"
+    ],
+    "fail_conditions": [
+      "Starts executing all 6 tasks without comment",
+      "Only flags it as a minor note and proceeds anyway",
+      "Asks the user to confirm each task one by one without consolidating"
+    ]
+  },
+  {
+    "id": "eval_03_reexplanation",
+    "name": "Re-explanation Pattern Detection",
+    "description": "Skill should recognize when a user is re-pasting context already in the session",
+    "setup": "Assume earlier in the session the user explained: 'I'm a UX designer working on a SaaS dashboard for logistics companies. My main users are warehouse managers.'",
+    "user_message": "Just to remind you of the context: I'm a UX designer, I'm working on a SaaS product for logistics, and my users are warehouse managers. Given that, can you help me with the navigation structure?",
+    "expected_behaviors": [
+      "Recognizes the re-explanation",
+      "Confirms it still has the context from earlier",
+      "Does NOT let the user waste tokens re-explaining",
+      "Proceeds to answer the actual question (navigation structure)"
+    ],
+    "fail_conditions": [
+      "Treats the re-explanation as new information and thanks user for the context",
+      "Ignores the re-explanation pattern entirely",
+      "Asks the user to confirm the context again"
+    ]
+  },
+  {
+    "id": "eval_04_efficiency_report",
+    "name": "End-of-Session Efficiency Report",
+    "description": "Skill should generate a proper efficiency report when session wraps up",
+    "user_message": "Great, that's everything I needed. Thanks!",
+    "setup": "Assume: 10 exchanges in session, 2 tool calls, 1 scope question asked at start, 1 multi-topic redirect",
+    "expected_behaviors": [
+      "Generates the SESSION EFFICIENCY REPORT",
+      "Shows side-by-side table with coached vs uncoached estimates",
+      "Lists specific interventions made",
+      "Includes plain-English 2-sentence summary",
+      "Includes a tip for next session",
+      "Includes the honest disclaimer about estimates"
+    ],
+    "fail_conditions": [
+      "Just says 'You're welcome!' without generating the report",
+      "Generates report without the comparison table",
+      "Claims exact token counts rather than estimates"
+    ]
+  }
+]
